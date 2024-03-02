@@ -1,7 +1,7 @@
-self.Game.textures = {
-  player: {},
-}
+self.Game.textures = {}
 
+// player textures
+self.Game.textures.player = {};
 self.Game.textures.player.falling = [];
 for (let i=0;i<2;i++) {
   let image = new Image();
@@ -22,3 +22,16 @@ for (let i=0;i<8;i++) { // < 8 instead of < 4 since there's two sets of walking 
   image.src = `./textures/player/walk/${i}.png`;
   self.Game.textures.player.walk.push(image);
 }
+
+// interactive rect textures
+(() => {
+  let image = new Image();
+  image.src = './textures/coin.png';
+  self.Game.textures.coin = image;
+})();
+
+(() => {
+  let image = new Image();
+  image.src = './textures/mi amor.png';
+  self.Game.textures.heart = image;
+})();

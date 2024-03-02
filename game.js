@@ -37,7 +37,7 @@ class Rect {
   }
 }
 
-// tiles like the border walls, platforms, and other things
+// tiles like the border walls, platforms, and other things 1 = platform, 3 = coin
 let tiles = self.Game.mapRects;
 
 class Player extends Rect {
@@ -53,9 +53,13 @@ class Player extends Rect {
 
   move() {
     this.x += this.vel.x;
-    let cList = [];
+    let cList = []; // collision list (platforms, walls, etc.)
+    let iList = []; // interactive collision list (coins, etc.)
     tiles.forEach(tile => {
-      if (this.collision(tile)) cList.push(tile);
+      if (this.collision(tile) && tile.type == 1) cList.push(tile);
+    });
+    tiles.forEach(tile => {
+      if (this.collision(tile) && tile.type == 3) iList.push(tile);
     });
   
     cList.forEach(collide_tile => {
@@ -65,12 +69,20 @@ class Player extends Rect {
         this.x = collide_tile.x + collide_tile.width;
       }
     });
+    iList.forEach(collide_tile => {
+      collide_tile.visible = false;
+    });
   
     this.y += this.vel.y;
     cList = [];
+    iList = [];
     tiles.forEach(tile => {
-      if (this.collision(tile)) cList.push(tile);
+      if (this.collision(tile) && tile.type == 1) cList.push(tile);
     });
+    tiles.forEach(tile => {
+      if (this.collision(tile) && tile.type == 3) iList.push(tile);
+    });
+
   
     cList.forEach(collide_tile => {
       if (this.vel.y > 0) {
@@ -82,30 +94,21 @@ class Player extends Rect {
         this.vel.y = 0;
       }
     });
+    iList.forEach(collide_tile => {
+      collide_tile.visible = false;
+    });
   }
 
   draw(cam) {
     let matchRectSize = true;
     if (this.direction == 'left') {
-      if (this.vel.y < 0) {
-        cam.drawImageWithRect(self.Game.textures.player.rising[0], this, matchRectSize);
-      } else if (this.vel.y > 0) {
-        cam.drawImageWithRect(self.Game.textures.player.falling[0], this, matchRectSize);
-      } else {
-        cam.drawImageWithRect(self.Game.textures.player.walk[this.walkFrame], this, matchRectSize);
-      }
+      cam.drawImageWithRect(self.Game.textures.player.walk[this.walkFrame], this, matchRectSize);
     } else if (this.direction == 'right') {
-      if (this.vel.y < 0) {
-        cam.drawImageWithRect(self.Game.textures.player.rising[1], this, matchRectSize);
-      } else if (this.vel.y > 0) {
-        cam.drawImageWithRect(self.Game.textures.player.falling[1], this, matchRectSize);
-      } else {
-        cam.drawImageWithRect(self.Game.textures.player.walk[this.walkFrame+4], this, matchRectSize);
-      }
+      cam.drawImageWithRect(self.Game.textures.player.walk[this.walkFrame+4], this, matchRectSize);
     }
 
     if (this.vel.x != 0 && self.Game.frameCounter%5==0) this.walkFrame = (this.walkFrame+1)%4;
-    if (this.vel.x == 0 || this.vel.y != 0) this.walkFrame = 0;
+    if (this.vel.x == 0) this.walkFrame = 0;
   }
 }
 
@@ -114,16 +117,22 @@ let player = new Player(100,150,80,108);
 function render() {
   color(127,127,127);
   c.fillRect(0,0,canvas.width,canvas.height);
+  
+  // camera.drawImageWithRect(self.Game.textures.coin, new Rect(0, 0, 32, 32), true);
 
   player.draw(camera);
 
-  // color(255,255,255); DEBUGGING
-  // c.fillRect(Math.floor(canvas.width/2)-2, Math.floor(canvas.height/2)-2, 2, 2);
-
   color(0,0,0);
   tiles.forEach(tile => {
-    camera.drawFromRect(tile);
+    if (tile.type == 1) {
+      camera.drawFromRect(tile);
+    } else if (tile.type == 3) {
+      if (tile.visible) camera.drawImageWithRect(self.Game.textures.coin, tile, true);
+      tile.visible = true;
+    }
   });
+
+  camera.drawImageWithRect(self.Game.textures.heart, new Rect(200, -300, 64, 64), true);
 }
 
 function game() {
