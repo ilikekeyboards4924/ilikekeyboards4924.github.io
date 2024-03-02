@@ -115,11 +115,13 @@ class Player extends Rect {
 let player = new Player(100,150,80,108);
 
 function render() {
-  color(127,127,127);
+  // draw background (parallax foreground)
+  color(99, 144, 194);
   c.fillRect(0,0,canvas.width,canvas.height);
   
-  // camera.drawImageWithRect(self.Game.textures.coin, new Rect(0, 0, 32, 32), true);
-
+  // with a 1600x700 display box, you should need 4 backgrounds together
+  // finish this later
+  
   player.draw(camera);
 
   color(0,0,0);
@@ -165,7 +167,7 @@ function keyEventHandler(event) {
     player.vel.x = 0;
   }
 
-  if (keysPressed['ArrowUp'] && player.jumpCount < 2) {
+  if (keysPressed['ArrowUp'] && player.jumpCount < 5) {
     player.vel.y = -5;
     player.jumpCount += 1;
   }

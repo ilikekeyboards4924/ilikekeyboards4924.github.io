@@ -23,15 +23,28 @@ for (let i=0;i<8;i++) { // < 8 instead of < 4 since there's two sets of walking 
   self.Game.textures.player.walk.push(image);
 }
 
+// miscellaneous textures (background, particles, etc.)
+self.Game.textures.background = [];
+for (let i=0;i<3;i++) {
+  let image = new Image();
+  image.src = `./textures/background/${i}.png`;
+  self.Game.textures.background.push(image);
+}
+// (() => {
+//   let image = new Image();
+//   image.onload = () => { self.Game.textures.background = image; }
+//   image.src = './textures/background.png';
+// })();
+
 // interactive rect textures
 (() => {
   let image = new Image();
+  image.onload = () => { self.Game.textures.coin = image; }
   image.src = './textures/coin.png';
-  self.Game.textures.coin = image;
 })();
 
 (() => {
   let image = new Image();
+  image.onload = () => { self.Game.textures.heart = image; }
   image.src = './textures/mi amor.png';
-  self.Game.textures.heart = image;
 })();
