@@ -38,7 +38,7 @@ class Rect {
 }
 
 // tiles like the border walls, platforms, and other things
-let tiles = [{"x":326,"y":250,"width":100,"height":20,"type":"1"},{"x":769,"y":340,"width":100,"height":20,"type":"1"},{"x":717,"y":328,"width":100,"height":20,"type":"1"},{"x":1068,"y":307,"width":100,"height":20,"type":"1"},{"x":620,"y":368,"width":100,"height":20,"type":"1"},{"x":537,"y":407,"width":100,"height":20,"type":"1"},{"x":995,"y":439,"width":100,"height":20,"type":"1"},{"x":648,"y":298,"width":100,"height":20,"type":"1"},{"x":563,"y":374,"width":100,"height":20,"type":"1"},{"x":-14,"y":409,"width":100,"height":20,"type":"1"},{"x":-3,"y":433,"width":100,"height":20,"type":"1"},{"x":369,"y":593,"width":100,"height":20,"type":"1"},{"x":394,"y":464,"width":100,"height":20,"type":"1"},{"x":-2,"y":306,"width":100,"height":20,"type":"1"},{"x":-184,"y":334,"width":100,"height":20,"type":"1"},{"x":-92,"y":413,"width":100,"height":20,"type":"1"},{"x":41,"y":503,"width":100,"height":20,"type":"1"},{"x":123,"y":510,"width":100,"height":20,"type":"1"},{"x":46,"y":428,"width":100,"height":20,"type":"1"},{"x":-233,"y":201,"width":730,"height":20,"type":"1"},{"x":-238,"y":128,"width":730,"height":20,"type":"1"}];
+let tiles = self.Game.mapRects;
 
 class Player extends Rect {
   constructor(x,y,width,height) {
